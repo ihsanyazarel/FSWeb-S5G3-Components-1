@@ -12,13 +12,40 @@ let menuElemanlari = [
 
 /*
   Adım 1: Aşağıdaki etiketlee gibi bir menü oluşturmak için 'menuYapici' adlı bir bileşen yazın:
+*/
 
-  <div class="menu">
-    <ul>
-      {tüm menü elemanları <li> içlerine}
-    </ul>
-  </div>
 
+  // <div class="menu">
+  //   <ul>
+  //     {tüm menü elemanları <li> içlerine}
+  //   </ul>
+  // </div>
+const menuYapici = (arr)=> {
+  const menu = document.createElement("div");
+  const ul = document.createElement("ul");
+
+  arr.forEach(element => {
+    const li = document.createElement("li");
+    li.textContent = element;
+    ul.appendChild(li);
+  });
+  
+  menu.className = "menu";
+
+  menu.appendChild(ul);
+  
+  document.querySelector(".menu-button").addEventListener("click", ()=>{
+    menu.classList.toggle("menu--open");
+  })
+
+  return menu;
+};
+
+
+document.querySelector(".header").appendChild(menuYapici(menuElemanlari));
+
+
+/*
   'menuYapici' fonksiyonu tek argümanı olarak bir menü elemanları dizisini alır (birinci parametre).
 
   Adım 2: Fonksiyonun içinde, dizideki her öğe için bir liste <li> öğesi oluşturarak dizi üzerinde yineleme yapın.

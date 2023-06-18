@@ -87,23 +87,82 @@ const data = [
     ucuncuParagraf: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
-  }
+  },
+  {
+    baslik: 'Yeni Haber',
+    tarih: '18 Haziran 2023',
+    ilkParagraf: `Hodor hodor HODOR! Hodor hodor - hodor, hodor. Hodor hodor... Hodor hodor hodor; hodor hodor. Hodor hodor hodor, hodor, hodor
+          hodor. Hodor, hodor. Hodor. Hodor, hodor - hodor... Hodor hodor hodor; hodor HODOR hodor, hodor hodor?! Hodor hodor, hodor.
+          Hodor hodor hodor hodor hodor! Hodor hodor - HODOR hodor, hodor hodor hodor hodor hodor; hodor hodor? `,
+
+    ikinciParagraf: `Hodor, hodor. Hodor. Hodor, hodor, hodor. Hodor hodor, hodor. Hodor hodor, hodor, hodor hodor. Hodor! Hodor hodor, hodor;
+          hodor hodor hodor? Hodor, hodor. Hodor. Hodor, hodor - HODOR hodor, hodor hodor hodor! Hodor, hodor. Hodor. Hodor, HODOR
+          hodor, hodor hodor, hodor, hodor hodor. Hodor hodor - hodor - hodor... Hodor hodor hodor hodor hodor hodor hodor?! Hodor
+          hodor - hodor hodor hodor. Hodor. Hodor hodor... Hodor hodor hodor hodor hodor? `,
+
+    ucuncuParagraf: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
+          Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
+          Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
 ];
 
 /*
   Adım 1: Haber oluşturmak için 'haberYapici' adında bir bileşen(component) oluşturun.
   Bileşeniniz, argümanı haberleri içeren dizi olarak alan bir fonksiyon olacak,
   ve aşağıdaki gibi görünen bir DOM düğümü döndürecek:
+*/
+const haberYapici = (obj)=> {
+  const article = document.createElement("div");
+  const baslik = document.createElement("h2");
+  const date = document.createElement("p");
+  const p1 = document.createElement("p");
+  const p2 = document.createElement("p");
+  const p3 = document.createElement("p");
+  const expandButton = document.createElement("span");
 
-  <div class="article">
-    <h2>{haber başlığı}</h2>
-    <p class="tarih">{haber tarihi}</p>
+  article.className = "article";
+  date.className = "date";
+  expandButton.className = "expandButton";
 
-    {üç ayrı paragraf elementi}
+  baslik.textContent = obj.baslik;
+  date.textContent = obj.tarih;
+  p1.textContent = obj.ilkParagraf;
+  p2.textContent = obj.ikinciParagraf;
+  p3.textContent = obj.ucuncuParagraf;
+  expandButton.textContent = "+";
 
-    <span class="expandButton">+</span>
-  </div>
+  expandButton.addEventListener("click", ()=>{
+    article.classList.toggle("article-open");
+    expandButton.textContent == "+" ? expandButton.textContent = "x" : expandButton.textContent = "+";
+  });
 
+  article.appendChild(baslik);
+  article.appendChild(date);
+  article.appendChild(p1);
+  article.appendChild(p2);
+  article.appendChild(p3);
+  article.appendChild(expandButton);
+
+  return article;
+}
+
+data.map(item => {
+  document.querySelector(".articles").appendChild(
+    haberYapici(item)
+  )
+});
+
+  // <div class="article">
+  //   <h2>{item.baslik}</h2>
+  //   <p class="date">{item.tarih}</p>
+  //   {/* {üç ayrı paragraf elementi} */}
+  //   <p>{item.ilkParagraf}</p>
+  //   <p>{item.ikinciParagraf}</p>
+  //   <p>{item.ucuncuParagraf}</p>
+  //   <span class="expandButton">+</span>
+  // </div>
+
+/*
   Adım 2: Hala `haberYapici` içindeyiz, span.expandButton 'a bir click event dinleyici ekleyin.
   Bu dinleyici div.article öğesine 'article-open' class'ını ekleyip/çıkaracak (toogle).
 
